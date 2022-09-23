@@ -1,0 +1,17 @@
+{
+  "name": "spacetree",
+  "version": "1.0.0",
+  "description": "A quadtree implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "zUnit",
+    "build-doc": "npx jsdoc -c jsdoc.json"
+  },
+  "keywords": ["quadtree", "collision", "2d"],
+  "repository": "git@github.com:sithmel/spacetree.git",
+  "author": "Maurizio Lupo <maurizio.lupo@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "zunit": "^4.0.0"
+  }
+}

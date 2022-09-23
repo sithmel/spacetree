@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Spacetree</h1>
+<p>Spacetree is a fast and compact library to query spatial data in the 2 dimensions.</p>
+<h2>Why to use it</h2>
+<p>If you are developing an application that deals with bidimensional space you probably need to retrieve all points or shapes in a certain area. This library allows you to do it in logarithmic time! That means that you can handle a lot of shapes very fast.</p>
+<h2>How it works internally</h2>
+<p>Internally uses a data structure called (quadtree)[https://en.wikipedia.org/wiki/Quadtree].</p>
+<h2>Basic usage</h2>
+<p>Create the data structure and add some data:</p>
+<pre class="prettyprint source lang-js"><code>import Spacetree from 'Spacetree';
+const st = new Spacetree({height: 1200, width:2000});
+const points = [
+  {x: 100, y: 0, data: 'first'},
+  {x: 100, y: 100, data: 'second'},
+  {x: 1000, y: 100, data: 'third'},
+  {x: 1000, y: 600, data: 'fourth'},
+  {x: 10000, y: 10000, data: 'fifth'}, // note the coordinates outside of the boundary
+];
+for (const point of points) {
+  console.log(`Insert ${point.data}:`, st.insert(point));
+}
+console.log('Total size', st.size);
+</code></pre>
+<p>This will print:</p>
+<pre class="prettyprint source"><code>Insert first: true
+Insert second: true
+Insert third: true
+Insert fourth: true
+Insert fifth: false
+Total size: 4
+</code></pre>
+<p>because data are inserted only if they fit in the boundary of the data structure.
+Here's how we retrieve the points in an area:</p>
+<pre class="prettyprint source lang-js"><code>for (const point of st.retrieve({x: 10, y: 10, width: 100, height: 100})) {
+  console.log('Point found: ', point.data)
+}
+</code></pre>
+<p>That will return:</p>
+<pre class="prettyprint source"><code>first
+second
+</code></pre>
+<p>If we want we can remove a point using:</p>
+<pre class="prettyprint source lang-js"><code>console.log(`Deleting ${points[0].data}`, st.delete(points[0]));
+console.log('Remaining points: ', st.size);
+</code></pre>
+<pre class="prettyprint source"><code>Deleting first: true
+Remaining points: 3
+</code></pre>
+<h2>How to retrieve from multiple boundaries</h2>
+<p>&quot;retrieve&quot; takes multiple ares as arguments:</p>
+<pre class="prettyprint source lang-js"><code>st.retrieve({x: 10, y: 10, width: 100, height: 100}, {x:500, y: 100, width: 10, height: 10});
+</code></pre>
+<p>If the areas overlap, duplicate points will be removed.</p>
+<h2>How to use different shapes</h2>
+<p>The library can be used to retrieve rectangles, circles and every other bidimensional shape.
+The only thing needed is a function that returns if an object is in a rectangular area:</p>
+<pre class="prettyprint source lang-js"><code>import Spacetree, {isRectInBoundary} from 'Spacetree';
+
+const st = new Spacetree({height: 1200, width:2000}, {isShapeinBoundary: isRectInBoundary});
+st.insert({x: 10, y: 10, width: 100, height: 100});
+...
+</code></pre>
+<p>You can mix up shaped passing the function in the insert and delete methods:</p>
+<pre class="prettyprint source lang-js"><code>import Spacetree, {isRectInBoundary, isCircleInBoundary} from 'Spacetree';
+
+const st = new Spacetree({height: 1200, width:2000});
+st.insert({x: 10, y: 10, width: 100, height: 100}, isCircleInBoundary);
+st.insert({x: 10, y: 10, width: 100, height: 100}, isRectInBoundary);
+...
+</code></pre>
+<p>Or you can write your own. This is how isPointInBoundary (the default function) is implemented:</p>
+<pre class="prettyprint source lang-js"><code>function isPointInBoundary(obj, boundary) {
+  const boundaryX = boundary?.x ?? 0;
+  const boundaryY = boundary?.y ?? 0;
+
+  return !(
+    (obj.x &lt; boundaryX) ||
+    (obj.x >= boundaryX + boundary.width) ||
+    (obj.y &lt; boundaryY) ||
+    (obj.y >= boundaryY + boundary.height));
+}
+</code></pre>
+<h2>How to clean up reset or change boundaries</h2>
+<p>There is no particular API for this common operations but here how you can perform them.
+If you need to clean up the tree, I suggest to just create a new one and let's the old one to be garbage collected. In fact this is the most performant way to get an empty data structure. If you need to change the boundaries of the data structure, again I suggest to create a new Spacetree. There is an API to retrieve all the object saved so that you can easily create a new one:</p>
+<pre class="prettyprint source lang-js"><code>const newST = new Spacetree({width: 20000, height: 10000});
+for (const [obj, isShapeInBoundary] of st.retrieveAll()) {
+  newST.insert(obj, isShapeInBoundary);
+}
+</code></pre>
+<h2>Running time</h2>
+<ul>
+<li>insert O(log n)</li>
+<li>delete O(log n)</li>
+<li>retrieve O(log n)</li>
+<li>retrieveAll O(n)</li>
+<li>size O(1)</li>
+</ul>
+<h2>Why use this and not other Quadtree implementations?</h2>
+<ul>
+<li>This is extensible: you can define you own shapes</li>
+<li>Very small footprint and no dependencies</li>
+<li>It is thouroughly tested</li>
+<li>It has a compact API, it does one thing well and fast</li>
+<li>It runs everywhere (no transpilation provided)</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Spacetree.html">Spacetree</a></li></ul><h3>Global</h3><ul><li><a href="global.html#isCircleInBoundary">isCircleInBoundary</a></li><li><a href="global.html#isPointInBoundary">isPointInBoundary</a></li><li><a href="global.html#isRectInBoundary">isRectInBoundary</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Sep 22 2022 21:57:42 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

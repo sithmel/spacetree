@@ -1,0 +1,10 @@
+{
+    "plugins": ["plugins/markdown"],
+    "source": {
+        "include": ["README.md", "spacetree.mjs"],
+        "includePattern": ".(jsx|js|ts|tsx|mjs)$"
+    },
+    "opts": {
+        "destination": "./docs/"
+    }
+}
