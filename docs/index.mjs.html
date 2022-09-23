@@ -1,11 +1,38 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: index.mjs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: index.mjs</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * The area where to search is a Rect.
  * This is also one of the basic shapes
- * It has a width and height. 
- * x and y are coordinates in space: they can be positive or negative
+ * It has a width and height, x and y are 0 if omitted
  * @typedef {Object} Rect
- * @property {number} x  X-Position
- * @property {number} y  Y-Position
+ * @property {number} [x=0]  X-Position
+ * @property {number} [y=0]  Y-Position
  * @property {number} width  Width
  * @property {number} height Height
  */
@@ -32,11 +59,14 @@
  * @param {Rect}  boundary 
  */
 export function isPointInBoundary(obj, boundary) {
+  const boundaryX = boundary?.x ?? 0;
+  const boundaryY = boundary?.y ?? 0;
+
   return !(
-    (obj.x < boundary.x) ||
-    (obj.x >= boundary.x + boundary.width) ||
-    (obj.y < boundary.y) ||
-    (obj.y >= boundary.y + boundary.height));
+    (obj.x &lt; boundaryX) ||
+    (obj.x >= boundaryX + boundary.width) ||
+    (obj.y &lt; boundaryY) ||
+    (obj.y >= boundaryY + boundary.height));
 }
 
 /**
@@ -46,11 +76,16 @@ export function isPointInBoundary(obj, boundary) {
  * @param {Rect} boundary 
  */
  export function isRectInBoundary(obj, boundary) {
+  const rectWidth = obj?.width ?? 0;
+  const rectHeight = obj?.height ?? 0;
+  const boundaryX = boundary?.x ?? 0;
+  const boundaryY = boundary?.y ?? 0;
+
   return !(
-    (obj.x < boundary.x && obj.x + obj.width < boundary.x) ||
-    (obj.x >= boundary.x + boundary.width && obj.x + obj.width >= boundary.x + boundary.width) ||
-    (obj.y < boundary.y && obj.y + obj.height < boundary.y) ||
-    (obj.y >= boundary.y + boundary.height && obj.y + obj.height >= boundary.y + boundary.height));
+    (obj.x &lt; boundaryX &amp;&amp; obj.x + rectWidth &lt; boundaryX) ||
+    (obj.x >= boundaryX + boundary.width &amp;&amp; obj.x + rectWidth >= boundaryX + boundary.width) ||
+    (obj.y &lt; boundaryY &amp;&amp; obj.y + rectHeight &lt; boundaryY) ||
+    (obj.y >= boundaryY + boundary.height &amp;&amp; obj.y + rectHeight >= boundaryY + boundary.height));
 }
 
 /**
@@ -60,15 +95,15 @@ export function isPointInBoundary(obj, boundary) {
  * @param {Rect}   boundary 
  */
  export function isCircleInBoundary(obj, boundary) {
-  const boundaryX = boundary.x - obj.radius;
-  const boundaryY = boundary.y - obj.radius;
+  const boundaryX = (boundary?.x ?? 0) - obj.radius;
+  const boundaryY = (boundary?.y ?? 0) - obj.radius;
   const boundaryWidth = boundary.width + (obj.radius * 2);
   const boundaryHeight = boundary.height + (obj.radius * 2);
 
   return !(
-    (obj.x < boundaryX) ||
+    (obj.x &lt; boundaryX) ||
     (obj.x >= boundaryX + boundaryWidth) ||
-    (obj.y < boundaryY) ||
+    (obj.y &lt; boundaryY) ||
     (obj.y >= boundaryY + boundaryHeight));
 }
 
@@ -100,7 +135,7 @@ export default class Spacetree {
    * @param {?Options} opts               Options
    */
   constructor(boundary, opts, level = 0) {
-    this.boundary = {...boundary, x: boundary?.x ?? 0, y: boundary?.y ?? 0};
+    this.boundary = boundary;
     this.opts = opts;
     this.level = level;
     this.subnodes = null;
@@ -123,8 +158,8 @@ export default class Spacetree {
   _split() {
     const width = this.boundary.width/2;
     const height = this.boundary.height/2;
-    const x = this.boundary.x;
-    const y = this.boundary.y;
+    const x = this.boundary?.x ?? 0;
+    const y = this.boundary?.y ?? 0;
     const nextLevel = this.level + 1;
 
     this.subnodes = Array(4);
@@ -189,7 +224,7 @@ export default class Spacetree {
 
     this.objects.add(obj);
 
-    if (this.objects.size > this.maxObjects && this.level < this.maxLevels) {
+    if (this.objects.size > this.maxObjects &amp;&amp; this.level &lt; this.maxLevels) {
       this._split();
       for (const obj of this.objects) {
         this.subnodes.forEach((subNode) => subNode.insert(obj));
@@ -259,7 +294,7 @@ export default class Spacetree {
     // and collapse the node if necessary
     if(this.subnodes.some((subNode) => subNode.delete(obj))) {
       this._size -= 1;
-      if (this._size <= this.maxObjects) {
+      if (this._size &lt;= this.maxObjects) {
         this.objects = new Set(this.retrieveAll());
         this.subnodes = null;
       }
@@ -277,4 +312,26 @@ export default class Spacetree {
   get size() {
     return this._size;
   }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Spacetree.html">Spacetree</a></li></ul><h3>Global</h3><ul><li><a href="global.html#isCircleInBoundary">isCircleInBoundary</a></li><li><a href="global.html#isPointInBoundary">isPointInBoundary</a></li><li><a href="global.html#isRectInBoundary">isRectInBoundary</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Sep 23 2022 15:49:57 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

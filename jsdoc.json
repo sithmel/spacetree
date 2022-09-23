@@ -1,7 +1,7 @@
 {
     "plugins": ["plugins/markdown"],
     "source": {
-        "include": ["README.md", "spacetree.mjs"],
+        "include": ["README.md", "index.mjs"],
         "includePattern": ".(jsx|js|ts|tsx|mjs)$"
     },
     "opts": {

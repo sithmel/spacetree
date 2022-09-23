@@ -8,10 +8,14 @@ If you are developing an application that deals with bidimensional space you pro
 Internally uses a data structure called (quadtree)[https://en.wikipedia.org/wiki/Quadtree].
 
 ## Basic usage
-Create the data structure and add some data:
+We create the data structure with:
 ```js
-import Spacetree from 'Spacetree';
-const st = new Spacetree({height: 1200, width:2000});
+import Spacetree from 'spacetree';
+const st = new Spacetree({x: 0, y: 0, height: 1200, width: 2000});
+```
+This define a rectangle in the 2d space starting at the coordinates x and y (they can be negative or positive) and with a certain height and width. All objects we insert should be within this rectangle.
+Let's add some data:
+```js
 const points = [
   {x: 100, y: 0, data: 'first'},
   {x: 100, y: 100, data: 'second'},
@@ -33,7 +37,7 @@ Insert fourth: true
 Insert fifth: false
 Total size: 4
 ```
-because data are inserted only if they fit in the boundary of the data structure.
+One point had its coordinates outside of the data structure. This is not allowed and therefore the insert was not successful.
 Here's how we retrieve the points in an area:
 ```js
 for (const point of st.retrieve({x: 10, y: 10, width: 100, height: 100})) {
@@ -55,51 +59,53 @@ Deleting first: true
 Remaining points: 3
 ```
 ## How to retrieve from multiple boundaries
-"retrieve" takes multiple ares as arguments:
+"retrieve" takes multiple areas as arguments:
 ```js
 st.retrieve({x: 10, y: 10, width: 100, height: 100}, {x:500, y: 100, width: 10, height: 10});
 ```
-If the areas overlap, duplicate points will be removed.
+If the areas overlap, duplicated points will be removed.
 
 ## How to use different shapes
 The library can be used to retrieve rectangles, circles and every other bidimensional shape.
-The only thing needed is a function that returns if an object is in a rectangular area:
+The only thing needed is a function that returns true if an object is in a rectangular area. The library contains one for rectangles and circles:
 ```js
-import Spacetree, {isRectInBoundary} from 'Spacetree';
+import Spacetree, {isRectInBoundary, isCircleinBoundary} from 'spacetree';
 
-const st = new Spacetree({height: 1200, width:2000}, {isShapeinBoundary: isRectInBoundary});
-st.insert({x: 10, y: 10, width: 100, height: 100});
+const st1 = new Spacetree({x: 0, y: 0, height: 1200, width:2000}, {isWithinBoundary: isRectInBoundary});
+st1.insert({x: 10, y: 10, width: 100, height: 100});
+...
+const st2 = new Spacetree({x: 0, y: 0, height: 1200, width:2000}, {isWithinBoundary: isCircleinBoundary});
+st1.insert({x: 10, y: 10, radius: 100});
 ...
 ```
-You can mix up shaped passing the function in the insert and delete methods:
+You can also write your own. This is necessary for example when you want to support multiple different shapes:
 ```js
-import Spacetree, {isRectInBoundary, isCircleInBoundary} from 'Spacetree';
-
-const st = new Spacetree({height: 1200, width:2000});
-st.insert({x: 10, y: 10, width: 100, height: 100}, isCircleInBoundary);
-st.insert({x: 10, y: 10, width: 100, height: 100}, isRectInBoundary);
-...
-```
-Or you can write your own. This is how isPointInBoundary (the default function) is implemented:
-```js
-function isPointInBoundary(obj, boundary) {
-  const boundaryX = boundary?.x ?? 0;
-  const boundaryY = boundary?.y ?? 0;
-
-  return !(
-    (obj.x < boundaryX) ||
-    (obj.x >= boundaryX + boundary.width) ||
-    (obj.y < boundaryY) ||
-    (obj.y >= boundaryY + boundary.height));
+ export function isRectOrCircleInBoundary(obj, boundary) {
+  if ('radius' in obj) {
+    return isCircleInBoundary(obj, boundary);
+  } else {
+    return isRectInBoundary(obj, boundary);
+  }
 }
 ```
+Here's the implementation of isRectInBoundary as a reference:
+```js
+ function isRectInBoundary(obj, boundary) {
+  return !(
+    (obj.x < boundary.x && obj.x + obj?.width < boundary.x) ||
+    (obj.x >= boundary.x + boundary.width && obj.x + obj.width >= boundary.x + boundary.width) ||
+    (obj.y < boundary.y && obj.y + obj?.height < boundary.y) ||
+    (obj.y >= boundary.y + boundary.height && obj.y + obj.height >= boundary.y + boundary.height));
+}
+```
+
 ## How to clean up reset or change boundaries
 There is no particular API for this common operations but here how you can perform them.
 If you need to clean up the tree, I suggest to just create a new one and let's the old one to be garbage collected. In fact this is the most performant way to get an empty data structure. If you need to change the boundaries of the data structure, again I suggest to create a new Spacetree. There is an API to retrieve all the object saved so that you can easily create a new one:
 ```js
-const newST = new Spacetree({width: 20000, height: 10000});
-for (const [obj, isShapeInBoundary] of st.retrieveAll()) {
-  newST.insert(obj, isShapeInBoundary);
+const newST = new Spacetree({x: 0, y: 0, width: 20000, height: 10000});
+for (const obj of st.retrieveAll()) {
+  newST.insert(obj);
 }
 ```
 

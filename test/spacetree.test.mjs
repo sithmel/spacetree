@@ -9,7 +9,7 @@ const mapData = (iter) => Array.from(iter).map(o => o.data)
 
 describe('Spacetree', () => {
   it('creates an instance', () => {
-    assert(new Spacetree({width: 200, height: 100}) instanceof Spacetree);
+    assert(new Spacetree({x: 0, y: 0, width: 200, height: 100}) instanceof Spacetree);
   });
 
   describe('Offset', () => {
@@ -32,7 +32,7 @@ describe('Spacetree', () => {
   describe('Insert points', () => {
     let qt;
     beforeEach(() => {
-      qt = new Spacetree({width: 200, height: 100});
+      qt = new Spacetree({x: 0, y: 0, width: 200, height: 100});
     });
     it('does not insert if out of bounds', () => {
       qt.insert({x: -1, y: -1, data: 'outofbounds'});
@@ -112,7 +112,7 @@ describe('Spacetree', () => {
   describe('Retrieve points', () => {
     let qt;
     beforeEach(() => {
-      qt = new Spacetree({width: 200, height: 100});  
+      qt = new Spacetree({x: 0, y: 0, width: 200, height: 100});  
       qt.insert({x: 10, y: 10, data: 'ok1'});
       qt.insert({x: 20, y: 20, data: 'ok2'});
       qt.insert({x: 101, y: 10, data: 'ok3'});
@@ -170,7 +170,7 @@ describe('Spacetree', () => {
   describe('Insert rects', () => {
     let qt;
     beforeEach(() => {
-      qt = new Spacetree({width: 200, height: 100}, {isWithinBoundary: isRectInBoundary});
+      qt = new Spacetree({x: 0, y: 0, width: 200, height: 100}, {isWithinBoundary: isRectInBoundary});
     });
     it('does not insert if out of bounds', () => {
       qt.insert({x: -10, y: -10, width: 5, height: 5, data: 'outofbounds'});
@@ -240,7 +240,7 @@ describe('Spacetree', () => {
   describe('Retrieve rects', () => {
     let qt;
     beforeEach(() => {
-      qt = new Spacetree({width: 200, height: 100}, {isWithinBoundary: isRectInBoundary});
+      qt = new Spacetree({x: 0, y: 0, width: 200, height: 100}, {isWithinBoundary: isRectInBoundary});
       qt.insert({x: 10, y: 10, width: 5, height: 5, data: 'ok1'});
       qt.insert({x: 20, y: 20, width: 5, height: 5, data: 'ok2'});
       qt.insert({x: 101, y: 10, width: 5, height: 5, data: 'ok3'});
@@ -316,7 +316,7 @@ describe('Spacetree', () => {
   describe('Size', () => {
     let qt;
     beforeEach(() => {
-      qt = new Spacetree({width: 200, height: 100});
+      qt = new Spacetree({x: 0, y: 0, width: 200, height: 100});
     });
 
     it('tracks number of items', () => {
@@ -351,7 +351,7 @@ describe('Spacetree', () => {
     const ok5 = {x: 10, y: 51, width: 5, height: 5, data: 'ok5'};
     const ok6 = {x: 10, y: 52, width: 200, height: 5, data: 'ok6'};
   beforeEach(() => {
-      qt = new Spacetree({width: 200, height: 100});
+      qt = new Spacetree({x: 0, y: 0, width: 200, height: 100});
       qt.insert(ok1);
       qt.insert(ok2);
       qt.insert({x: 101, y: 10, width: 5, height: 5, data: 'ok3'});
