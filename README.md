@@ -5,7 +5,7 @@ Spacetree is a fast and compact library to query spatial data in the 2 dimension
 If you are developing an application that deals with bidimensional space you probably need to retrieve all points or shapes in a certain area. This library allows you to do it in logarithmic time! That means that you can handle a lot of shapes very fast.
 
 ## How it works internally
-Internally uses a data structure called (quadtree)[https://en.wikipedia.org/wiki/Quadtree].
+Internally uses a data structure called [quadtree](https://en.wikipedia.org/wiki/Quadtree).
 
 ## Basic usage
 We create the data structure with:
@@ -59,7 +59,7 @@ Deleting first: true
 Remaining points: 3
 ```
 ## How to retrieve from multiple boundaries
-"retrieve" takes multiple areas as arguments:
+"retrieve" can take one or more areas as arguments:
 ```js
 st.retrieve({x: 10, y: 10, width: 100, height: 100}, {x:500, y: 100, width: 10, height: 10});
 ```
@@ -92,16 +92,16 @@ Here's the implementation of isRectInBoundary as a reference:
 ```js
  function isRectInBoundary(obj, boundary) {
   return !(
-    (obj.x < boundary.x && obj.x + obj?.width < boundary.x) ||
+    (obj.x < boundary.x && obj.x + obj.width < boundary.x) ||
     (obj.x >= boundary.x + boundary.width && obj.x + obj.width >= boundary.x + boundary.width) ||
-    (obj.y < boundary.y && obj.y + obj?.height < boundary.y) ||
+    (obj.y < boundary.y && obj.y + obj.height < boundary.y) ||
     (obj.y >= boundary.y + boundary.height && obj.y + obj.height >= boundary.y + boundary.height));
 }
 ```
 
 ## How to clean up reset or change boundaries
-There is no particular API for this common operations but here how you can perform them.
-If you need to clean up the tree, I suggest to just create a new one and let's the old one to be garbage collected. In fact this is the most performant way to get an empty data structure. If you need to change the boundaries of the data structure, again I suggest to create a new Spacetree. There is an API to retrieve all the object saved so that you can easily create a new one:
+There is no particular API for this common operations but here is how you can perform them.
+If you need to clean up the tree, I suggest to just create a new one and let's the old one to be garbage collected. In fact, this is the most performant way to get an empty data structure. If you need to change the boundaries of the data structure, again I suggest to create a new Spacetree. There is an API to retrieve all the object saved so that you can easily create a new one:
 ```js
 const newST = new Spacetree({x: 0, y: 0, width: 20000, height: 10000});
 for (const obj of st.retrieveAll()) {
@@ -117,7 +117,7 @@ for (const obj of st.retrieveAll()) {
 - size O(1)
 
 ## Why use this and not other Quadtree implementations?
-- This is extensible: you can define you own shapes
+- This is extensible: you can define your own shapes
 - Very small footprint and no dependencies
 - It is thouroughly tested
 - It has a compact API, it does one thing well and fast

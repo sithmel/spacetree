@@ -1,11 +1,12 @@
 {
   "name": "spacetree",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "A quadtree implementation",
   "main": "index.js",
   "scripts": {
     "test": "zUnit",
-    "build-doc": "npx jsdoc -c jsdoc.json"
+    "build-doc": "npx jsdoc -c jsdoc.json",
+    "flow": "npx flow-bin"
   },
   "keywords": ["quadtree", "collision", "2d"],
   "repository": "git@github.com:sithmel/spacetree.git",

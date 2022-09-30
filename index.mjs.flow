@@ -1,0 +1,38 @@
+// @flow
+
+declare type Rect = {
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+}
+
+declare type Point = {
+  x: number,
+  y: number,
+}
+
+declare type Circle = {
+  x: number,
+  y: number,
+  radius: number,
+};
+
+declare type Options = {
+  maxObjects: number,
+  maxLevels: number,
+  isWithinBoundary: ?(any, Rect) => boolean,
+};
+
+declare export function isPointInBoundary(obj: Point, boundary: Rect): boolean;
+declare export function isRectInBoundary(obj: Rect, boundary: Rect): boolean;
+declare export function isCircleInBoundary(obj: Circle, boundary: Rect): boolean;
+
+declare export default class Spacetree {
+  constructor(boundary:Rect, opts:Options, level:number):Spacetree;
+  retrieveAll(): Iterable<any>;
+  insert(any): boolean;
+  retrieve(...Rect): Iterable<any>;
+  delete(any): boolean;
+  size: number;
+}
