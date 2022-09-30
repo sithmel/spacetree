@@ -1,6 +1,6 @@
 {
   "name": "spacetree",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A quadtree implementation",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,11 @@
     "build-doc": "npx jsdoc -c jsdoc.json",
     "flow": "npx flow-bin"
   },
-  "keywords": ["quadtree", "collision", "2d"],
+  "keywords": [
+    "quadtree",
+    "collision",
+    "2d"
+  ],
   "repository": "git@github.com:sithmel/spacetree.git",
   "author": "Maurizio Lupo <maurizio.lupo@gmail.com>",
   "license": "MIT",
