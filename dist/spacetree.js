@@ -1,7 +1,3 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
 /**
  * The area where to search is a Rect.
  * This is also one of the basic shapes
@@ -283,7 +279,4 @@ class Spacetree {
   }
 }
 
-exports["default"] = Spacetree;
-exports.isCircleInBoundary = isCircleInBoundary;
-exports.isPointInBoundary = isPointInBoundary;
-exports.isRectInBoundary = isRectInBoundary;
+export { Spacetree as default, isCircleInBoundary, isPointInBoundary, isRectInBoundary };
