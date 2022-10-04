@@ -1,3 +1,7 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
 /**
  * The area where to search is a Rect.
  * This is also one of the basic shapes
@@ -31,7 +35,7 @@
  * @param {Point} obj
  * @param {Rect}  boundary 
  */
-export function isPointInBoundary(obj, boundary) {
+function isPointInBoundary(obj, boundary) {
   return !(
     (obj.x < boundary.x) ||
     (obj.x >= boundary.x + boundary.width) ||
@@ -45,7 +49,7 @@ export function isPointInBoundary(obj, boundary) {
  * @param {Rect} obj
  * @param {Rect} boundary 
  */
-export function isRectInBoundary(obj, boundary) {
+function isRectInBoundary(obj, boundary) {
   return !(
     (obj.x < boundary.x && obj.x + obj.width < boundary.x) ||
     (obj.x >= boundary.x + boundary.width && obj.x + obj.width >= boundary.x + boundary.width) ||
@@ -59,7 +63,7 @@ export function isRectInBoundary(obj, boundary) {
  * @param {Circle} obj
  * @param {Rect}   boundary 
  */
-export function isCircleInBoundary(obj, boundary) {
+function isCircleInBoundary(obj, boundary) {
   const boundaryX = boundary.x - obj.radius;
   const boundaryY = boundary.y - obj.radius;
   const boundaryWidth = boundary.width + (obj.radius * 2);
@@ -91,7 +95,7 @@ function * removeDuplicates(iterable) {
  */
 
 
-export default class Spacetree {
+class Spacetree {
 
   /**
    * Spacetree Constructor
@@ -278,3 +282,8 @@ export default class Spacetree {
     return this._size;
   }
 }
+
+exports["default"] = Spacetree;
+exports.isCircleInBoundary = isCircleInBoundary;
+exports.isPointInBoundary = isPointInBoundary;
+exports.isRectInBoundary = isRectInBoundary;

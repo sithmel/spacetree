@@ -6,7 +6,8 @@
   "scripts": {
     "test": "zUnit",
     "build-doc": "npx jsdoc -c jsdoc.json",
-    "flow": "npx flow-bin"
+    "flow": "npx flow-bin",
+    "dist": "npx rollup index.mjs --file dist/spacetree.js --format cjs"
   },
   "keywords": [
     "quadtree",
