@@ -1,9 +1,9 @@
 {
   "name": "spacetree",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A quadtree implementation",
   "main": "dist/spacetree.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "zUnit",
     "build-doc": "npx jsdoc -c jsdoc.json",
