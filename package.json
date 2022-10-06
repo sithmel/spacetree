@@ -3,11 +3,12 @@
   "version": "0.0.3",
   "description": "A quadtree implementation",
   "main": "dist/spacetree.js",
+  "type": "module",
   "scripts": {
     "test": "zUnit",
     "build-doc": "npx jsdoc -c jsdoc.json",
     "flow": "npx flow-bin dist",
-    "dist": "npx rollup index.mjs --file dist/spacetree.js --format cjs"
+    "dist": "npx rollup index.js --file dist/spacetree.js"
   },
   "keywords": [
     "quadtree",

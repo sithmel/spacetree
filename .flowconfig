@@ -3,7 +3,7 @@
 .*/node_modules/.*
 
 [include]
-./index.mjs
+./index.js
 
 [libs]
 

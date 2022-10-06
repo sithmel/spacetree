@@ -1,7 +1,7 @@
 {
     "plugins": ["plugins/markdown"],
     "source": {
-        "include": ["README.md", "index.mjs"],
+        "include": ["README.md", "index.js"],
         "includePattern": ".(jsx|js|ts|tsx|mjs)$"
     },
     "opts": {
