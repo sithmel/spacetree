@@ -2,7 +2,7 @@
   "name": "spacetree",
   "version": "0.0.1",
   "description": "A quadtree implementation",
-  "main": "index.js",
+  "main": "dist/spacetree.js",
   "type":"module",
   "scripts": {
     "test": "zUnit",
