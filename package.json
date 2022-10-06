@@ -1,6 +1,6 @@
 {
   "name": "spacetree",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A quadtree implementation",
   "main": "dist/spacetree.js",
   "scripts": {
