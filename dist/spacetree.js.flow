@@ -53,7 +53,7 @@ declare export function isRectInBoundary(obj: Rect, boundary: Rect): boolean;
 declare export function isCircleInBoundary(obj: Circle, boundary: Rect): boolean;
 
 declare export default class Spacetree {
-  constructor(boundary:Rect, opts:Options, level:number):Spacetree;
+  constructor(boundary:Rect, opts?:Options, level?:number):Spacetree;
   retrieveAll(): Iterable<any>;
   insert(any): boolean;
   retrieve(...Rect): Iterable<any>;
