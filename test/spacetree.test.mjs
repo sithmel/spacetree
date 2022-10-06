@@ -1,7 +1,7 @@
 import pkg from 'zunit';
 
 import assert from 'assert';
-import Spacetree, {isRectInBoundary} from '../index.js';
+import Spacetree, {isRectInBoundary} from '../index.mjs';
 
 const { describe, it, beforeEach }  = pkg;
 

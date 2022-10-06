@@ -1,3 +1,7 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
 /**
 The MIT License (MIT)
 
@@ -304,4 +308,7 @@ class Spacetree {
   }
 }
 
-export { Spacetree as default, isCircleInBoundary, isPointInBoundary, isRectInBoundary };
+exports["default"] = Spacetree;
+exports.isCircleInBoundary = isCircleInBoundary;
+exports.isPointInBoundary = isPointInBoundary;
+exports.isRectInBoundary = isRectInBoundary;
