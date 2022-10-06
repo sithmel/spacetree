@@ -43,9 +43,9 @@ declare type Circle = {
 };
 
 declare type Options = {
-  maxObjects: number,
-  maxLevels: number,
-  isWithinBoundary: ?(any, Rect) => boolean,
+  maxObjects?: ?number,
+  maxLevels?: ?number,
+  isWithinBoundary?: ?(any, Rect) => boolean,
 };
 
 declare export function isPointInBoundary(obj: Point, boundary: Rect): boolean;
@@ -56,7 +56,7 @@ declare export default class Spacetree {
   constructor(boundary:Rect, opts?:Options, level?:number):Spacetree;
   retrieveAll(): Iterable<any>;
   insert(any): boolean;
-  retrieve(...Rect): Iterable<any>;
+  retrieve(...Array<Rect>): Iterable<any>;
   delete(any): boolean;
   size: number;
 }
