@@ -72,10 +72,10 @@ export function isPointInBoundary(obj, boundary) {
  */
 export function isRectInBoundary(obj, boundary) {
   return !(
-    (obj.x < boundary.x && obj.x + obj.width < boundary.x) ||
-    (obj.x >= boundary.x + boundary.width && obj.x + obj.width >= boundary.x + boundary.width) ||
-    (obj.y < boundary.y && obj.y + obj.height < boundary.y) ||
-    (obj.y >= boundary.y + boundary.height && obj.y + obj.height >= boundary.y + boundary.height));
+    (obj.x + obj.width < boundary.x) ||
+    (obj.x >= boundary.x + boundary.width) ||
+    (obj.y + obj.height < boundary.y) ||
+    (obj.y >= boundary.y + boundary.height));
 }
 
 /**
